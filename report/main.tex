@@ -14,6 +14,7 @@
 \usepackage[english]{babel}
 \usepackage{microtype}
 \usepackage{graphicx}
+\usepackage{pdfpages}               % Vlerick cover page
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{caption}
@@ -90,6 +91,8 @@
 % ---------------------------------------------------------------------------
 
 \begin{document}
+
+\includepdf[pages=1]{"Template Assignments MFM_27.pdf"}  % cover page (not counted)
 
 \twocolumn[{%
 \RaggedRight\sffamily

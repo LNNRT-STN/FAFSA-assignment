@@ -1,0 +1,14 @@
+Third-party sources (regulators, market data, press) cited in the report. Retrieved 2026-11-08.
+
+pdf/AMF-2009-28_financial-statements-2009.pdf https://www.amf-france.org/sites/institutionnel/files/doctrine/en/Recommendation/DOC-2009-28/1.2/Financial%20statements%202009.pdf
+  AMF Recommendation 2009-28 (4 Nov 2009), English translation. Section 3.4, p. 10/21 (printed 8):
+  "Put options on minority interests recorded prior to the effective date of IFRS 3R and IAS 27R using the
+  'partial goodwill' method" -- "one of the methods considered acceptable given the lack of guidance";
+  liability recognised against elimination of minority interests + partial goodwill; "goodwill recorded
+  previously in connection with the recognition of the put options could be retained".
+  Section 3.5 (same page): for post-IFRS 3R puts, AMF notes IAS 39.AG8 points to P&L for remeasurement.
+  Supports: "old French method" (= the partial-goodwill method accepted by the French regulator).
+
+news/2026-11-08_marketscreener-pernod-ricard-valuation.md https://www.marketscreener.com/quote/stock/PERNOD-RICARD-4681/valuation/
+news/2026-03-26_recital-big-spirits-downcycle.md https://recital.substack.com/p/big-spirits-who-wins-the-downcycle
+  Support: "Lower sector multiples (to 2024)".
