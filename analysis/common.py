@@ -17,16 +17,17 @@ for d in (RAW, PROCESSED, TABLES, FIGURES):
     d.mkdir(parents=True, exist_ok=True)
 
 # Consistent, print-friendly figure style for the report.
-# Figures use Source Sans (the report's sans face) from Tectonic's cache when present.
+# Figures use Source Sans (the report's sans face), from TeX Live or Tectonic's cache.
 from glob import glob
 from matplotlib import font_manager
-for _f in glob(str(Path.home() / "Library/Caches/TectonicProject.Tectonic/bundles/data/*/SourceSansPro-*.otf")):
+for _f in (glob("/usr/local/texlive/*/texmf-dist/fonts/opentype/adobe/sourcesans/SourceSans3-*.otf")
+           + glob(str(Path.home() / "Library/Caches/TectonicProject.Tectonic/bundles/data/*/SourceSansPro-*.otf"))):
     font_manager.fontManager.addfont(_f)
 plt.rcParams.update({
     "font.family": "sans-serif",
-    "font.sans-serif": ["Source Sans Pro", "Helvetica Neue", "Helvetica", "DejaVu Sans"],
+    "font.sans-serif": ["Source Sans 3", "Source Sans Pro", "Helvetica Neue", "Helvetica", "DejaVu Sans"],
     "figure.figsize": (6.0, 3.0),
-    "font.size": 9,
+    "font.size": 8,
     "axes.spines.top": False,
     "axes.spines.right": False,
     "savefig.bbox": "tight",

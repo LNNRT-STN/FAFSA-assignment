@@ -10,6 +10,7 @@ Outputs (for \\input / \\includegraphics in report/)
   report/tables/nci_put_series.tex      the liability, its goodwill counterpart and Diageo's NCI share
   report/tables/nci_put_proforma.tex    what the acquirer should restate: net debt, equity, earnings
   report/figures/nci_put_decomposition.pdf   stacked bars: NCI share + goodwill plug = Diageo put
+  report/figures/nci_put_entry.pdf           Dr = Cr blocks at end-2021 and end-2025, one scale
   report/figures/nci_put_pnl.pdf             net profit as reported vs. with the goodwill movement in P&L
   report/figures/nci_put_fv.pdf              implied fair value of 100% of MH, LVMH vs. Diageo basis
   report/figures/nci_put_netdebt.pdf         net financial debt as reported vs. with the put added
@@ -102,8 +103,60 @@ def decomposition_figure(w: pd.DataFrame):
         ax.text(i, a + b + 0.25, f"{a + b:.1f}", ha="center", va="bottom", fontsize=8, color=INK)
     ax.set_xticks(list(x), labels, fontsize=8)
     _style(ax, (0, 16.5))
-    ax.legend(["Diageo's 34% of MH equity", "Goodwill counterpart"],
+    ax.legend([ax.containers[1], ax.containers[0]], ["Goodwill counterpart", "Diageo's 34% of MH equity"],
               frameon=False, fontsize=8, loc="upper right", handlelength=1, borderaxespad=0.1)
+    return fig
+
+
+def entry_figure(w: pd.DataFrame):
+    """The booking entry at end-2021 and end-2025, to one scale: Dr (minority interest + goodwill)
+    = Cr (Diageo put liability). Shows that the goodwill block carries all of the fall in value."""
+    from matplotlib.patches import FancyArrowPatch
+    years = [("FY2021", "End-2021", 0.0), ("FY2025", "End-2025", 3.35)]
+    bw, gap = 1.0, 0.34
+    fig, ax = plt.subplots(figsize=(FIGSIZE[0], 2.0))
+    def seg(x, y, value, name):
+        """Block label: the amount, with the account name in smaller type under it."""
+        ax.annotate(f"{value:,.0f}", (x, y), xytext=(0, 0.5), textcoords="offset points",
+                    ha="center", va="bottom", color="white", fontsize=7.5, fontweight="semibold")
+        ax.annotate(name, (x, y), xytext=(0, -0.5), textcoords="offset points",
+                    ha="center", va="top", color="white", fontsize=6.5, linespacing=0.95)
+
+    for fy, title, x0 in years:
+        y = w.loc[fy]
+        nci, gw = y.diageo_accumulated_nci, y.goodwill_on_commitments
+        put = nci + gw
+        fv = put / PUT_PRICE / DIAGEO_STAKE / 1000
+        xc = x0 + bw + gap
+        ax.bar(x0, nci, width=bw, align="edge", color=NEUTRAL, linewidth=0)
+        ax.bar(x0, gw, bottom=nci, width=bw, align="edge", color=ORANGE, linewidth=0.8, edgecolor="white")
+        ax.bar(xc, put, width=bw, align="edge", color=BLUE, linewidth=0)
+        seg(x0 + bw / 2, nci * 0.63, nci, "minority\ninterest")
+        if gw > 1500:
+            seg(x0 + bw / 2, nci + gw / 2, gw, "goodwill")
+        else:
+            ax.annotate(f"{gw:,.0f} goodwill", xy=(x0 + bw / 2, put), xytext=(x0 + bw / 2 + 0.4, put + 1300),
+                        ha="center", va="bottom", fontsize=7.5, color=ORANGE, fontweight="semibold",
+                        arrowprops=dict(arrowstyle="-", color=ORANGE, lw=0.6, shrinkA=0, shrinkB=0))
+        seg(xc + bw / 2, put / 2 + 250, put, "put\nliability")
+        ax.text(x0 + bw + gap / 2, put / 2, "=", ha="center", va="center", fontsize=11, color=MUTED)
+        ax.text(x0 + bw / 2, -350, "Dr", ha="center", va="top", fontsize=7, color=MUTED)
+        ax.text(xc + bw / 2, -350, "Cr", ha="center", va="top", fontsize=7, color=MUTED)
+        # date heading above each pair, on one line across the figure
+        ax.text(x0 + bw + gap / 2, 14250, title, ha="center", va="bottom",
+                fontsize=9, color=INK, fontweight="semibold")
+        ax.text(x0 + bw + gap / 2, 13350, f"MH ≈ €{fv:.0f}bn", ha="center", va="bottom",
+                fontsize=7, color=MUTED)
+    # the fall in the goodwill block, booked outside P&L
+    d_gw = (w.loc["FY2025"].goodwill_on_commitments - w.loc["FY2021"].goodwill_on_commitments) / 1000
+    ax.add_patch(FancyArrowPatch((2.42, 9600), (3.28, 4650), connectionstyle="arc3,rad=-0.35",
+                                 arrowstyle="-|>,head_length=4,head_width=2.5", color=ORANGE, lw=1.3))
+    ax.text(3.35, 11300, f"−€{-d_gw:.1f}bn goodwill", ha="left", va="top", fontsize=8,
+            color=ORANGE, fontweight="semibold")
+    ax.text(3.35, 10200, "€0 through P&L", ha="left", va="top", fontsize=8, color=INK, fontweight="semibold")
+    ax.set_xlim(-0.05, 3.35 + 2 * bw + gap + 0.05)
+    ax.set_ylim(-1100, 15500)
+    ax.axis("off")
     return fig
 
 
@@ -119,7 +172,7 @@ def pnl_figure(w: pd.DataFrame):
     ax.bar([i - bw / 2 - 0.02 for i in x], d.net_profit_group_share, width=bw, color=NEUTRAL, linewidth=0)
     ax.bar([i + bw / 2 + 0.02 for i in x], restated, width=bw, color=ORANGE, linewidth=0)
     for i, (r, dl, rep) in enumerate(zip(restated, delta, d.net_profit_group_share)):
-        ax.text(i + bw / 2 + 0.02, max(r, rep) + 0.3, f"{dl:+.1f}", ha="center", va="bottom", fontsize=8, color=INK)
+        ax.text(i + bw / 2 + 0.02, max(r, rep) + 0.3, f"{dl:+.1f}".replace("-", "\u2212"), ha="center", va="bottom", fontsize=8, color=INK)
     ax.set_xticks(x, labels, fontsize=8)
     _style(ax, (0, 26))
     ax.legend(["As reported", "Put remeasured through P&L"], frameon=False, fontsize=8, loc="upper left", ncol=2, handlelength=1, borderaxespad=0, columnspacing=1)
@@ -143,15 +196,22 @@ def fv_figure(w: pd.DataFrame):
     x = list(range(len(d)))
     ax.plot(x, d.values, color=BLUE, linewidth=2, marker="o", markersize=5,
             markeredgecolor="white", markeredgewidth=1.2, zorder=3)
-    for i in (0, 3, 4):
-        ax.text(x[i], d.iloc[i] + 2.2, f"{d.iloc[i]:.0f}", ha="center", fontsize=8, color=INK)
+    for i in (0, 3):   # anchor the fall: start and the 2024 drop, up-right of the point
+        ax.text(x[i] + 0.1, d.iloc[i] + 1.5, f"{d.iloc[i]:.0f}", ha="left", va="bottom", fontsize=8, color=INK)
     dg = diageo_basis_fv_mh() / 1000
-    ax.plot([x[-1]], [dg], marker="D", markersize=6, color=ORANGE, markeredgecolor="white",
+    ax.plot([x[-1]], [dg], marker="D", markersize=5.5, color=ORANGE, markeredgecolor="white",
             markeredgewidth=1.2, linestyle="none", zorder=4)
-    ax.text(x[-1] - 0.15, dg - 1.5, f"Diageo basis {dg:.0f}", ha="right", va="top", fontsize=8, color=INK)
-    ax.text(x[-1], d.iloc[-1] + 2.2, "LVMH\nbasis", ha="center", fontsize=8, color=INK)
+    # Direct end labels, in series colour, right of each endpoint: name + value the text compares
+    end = x[-1] + 0.22
+    ax.text(end, d.iloc[-1] + 0.6, f"LVMH {d.iloc[-1]:.1f}", ha="left", va="bottom", fontsize=8,
+            color=BLUE, fontweight="semibold")
+    ax.text(end, dg - 0.6, f"Diageo {dg:.1f}", ha="left", va="top", fontsize=8,
+            color=ORANGE, fontweight="semibold")
     ax.set_xticks(x, labels, fontsize=8)
-    _style(ax, (0, 55))
+    ax.set_xlim(-0.35, x[-1] + 1.35)
+    ax.spines["bottom"].set_bounds(-0.35, x[-1] + 0.35)
+    _style(ax, (0, 50))
+    ax.set_yticks([0, 10, 20, 30, 40, 50])
     return fig
 
 
@@ -219,6 +279,7 @@ def main(ticker: str) -> None:
     p = proforma_table(w)
     write_table(p, "nci_put_proforma")
     save_figure(decomposition_figure(w), "nci_put_decomposition")
+    save_figure(entry_figure(w), "nci_put_entry")
     save_figure(pnl_figure(w), "nci_put_pnl")
     save_figure(fv_figure(w), "nci_put_fv")
     save_figure(netdebt_figure(w), "nci_put_netdebt")

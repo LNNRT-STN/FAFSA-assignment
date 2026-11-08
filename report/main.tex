@@ -19,7 +19,6 @@
 \usepackage{caption}
 \usepackage{enumitem}
 \usepackage{titlesec}
-\usepackage[flushmargin]{footmisc} % one source per line, aligned with the column
 \usepackage{xcolor}
 \usepackage{textcomp}
 \usepackage{acro}                  % abbreviations: spelled out at first use
@@ -34,7 +33,6 @@
 \definecolor{brand}{HTML}{1B365D}   % navy
 \definecolor{muted}{HTML}{5A5F66}   % secondary text
 \definecolor{hair}{HTML}{B9BEC4}    % rules
-\newcommand{\runin}[1]{{\sffamily\color{brand}#1.}\enspace} % unbolded run-in label
 
 \graphicspath{{figures/}}
 \DeclareCaptionFont{brand}{\color{brand}}
@@ -45,8 +43,14 @@
 \titleformat{\section}{\sffamily\Large\bfseries\color{brand}}{}{0pt}{}[{\color{brand}\titlerule[0.6pt]}]
 \titleformat{\subsection}{\sffamily\large\bfseries\color{brand}}{}{0pt}{}
 \titlespacing*{\section}{0pt}{0pt}{5pt}
+\titleformat{\subsubsection}{\sffamily\normalsize\bfseries\color{brand}}{}{0pt}{}
 \titlespacing*{\subsection}{0pt}{6pt}{1pt}
-\renewcommand{\footnotelayout}{\sffamily\color{muted}}
+\titlespacing*{\subsubsection}{0pt}{4pt}{0pt}
+% Footnotes: number in a fixed slot at the column edge, source text aligned after it
+\makeatletter
+\renewcommand\@makefntext[1]{\leftskip=1.4em\parindent=0pt\noindent
+  \llap{\makebox[1.4em][l]{\sffamily\color{brand}\@thefnmark}}{\sffamily\color{muted}#1}}
+\makeatother
 \setlength{\parskip}{3pt}
 \setlength{\parindent}{0pt}
 \setlength{\footnotesep}{6.5pt}
