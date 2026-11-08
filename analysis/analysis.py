@@ -6,16 +6,11 @@ Inputs
                                     checked by analysis/verify_citations.py lvmh lvmh_nci_put)
   data/raw/<TICKER>_*.csv           OpenBB downloads, not needed for this issue
 
-Outputs (for \\input / \\includegraphics in report/)
-  report/tables/nci_put_series.tex      the liability, its goodwill counterpart and Diageo's NCI share
-  report/tables/nci_put_proforma.tex    what the acquirer should restate: net debt, equity, earnings
-  report/figures/nci_put_decomposition.pdf   stacked bars: NCI share + goodwill plug = Diageo put
+Outputs (for \\includegraphics in report/; the series and pro-forma tables print to the console)
   report/figures/nci_put_entry.pdf           Dr = Cr blocks at end-2021 and end-2025, one scale
   report/figures/nci_put_flow.pdf            FY2024 flow: MH value -> put liability -> goodwill vs. P&L
   report/figures/nci_put_pnl.pdf             net profit as reported vs. with the goodwill movement in P&L
   report/figures/nci_put_fv.pdf              implied fair value of 100% of MH, LVMH vs. Diageo basis
-  report/figures/nci_put_netdebt.pdf         net financial debt as reported vs. with the put added
-  report/tables/nci_put_entries.tex          journal entries (Dr/Cr): LVMH method vs. IASB 2026 proposal
 
 Usage:  python3.12 analysis/analysis.py MC.PA
 """
@@ -23,7 +18,7 @@ import sys
 
 import pandas as pd
 
-from common import PROCESSED, TABLES, plt, save_figure, write_table
+from common import PROCESSED, plt, save_figure
 
 DIAGEO_STAKE = 0.34
 PUT_PRICE = 0.80          # Diageo can put at 80% of Moët Hennessy's fair value (FD note 21)
@@ -92,22 +87,6 @@ def _style(ax, ylim: tuple[float, float]) -> None:
         ax.spines[side].set_color(AXIS)
 
 
-def decomposition_figure(w: pd.DataFrame):
-    """Left panel: the Diageo put = Diageo's equity share (flat) + goodwill plug (collapsing)."""
-    d = w.loc["FY2021":, ["diageo_accumulated_nci", "goodwill_on_commitments"]] / 1000
-    labels = [i.replace("FY", "").replace("H1-2026", "H1 26") for i in d.index]
-    fig, ax = plt.subplots(figsize=FIGSIZE)
-    x = range(len(d))
-    ax.bar(x, d.diageo_accumulated_nci, color=BLUE, width=0.62, linewidth=0)
-    ax.bar(x, d.goodwill_on_commitments, bottom=d.diageo_accumulated_nci, color=ORANGE, width=0.62,
-           linewidth=1, edgecolor="white")
-    for i, (a, b) in enumerate(zip(d.diageo_accumulated_nci, d.goodwill_on_commitments)):
-        ax.text(i, a + b + 0.25, f"{a + b:.1f}", ha="center", va="bottom", fontsize=8, color=INK)
-    ax.set_xticks(list(x), labels, fontsize=8)
-    _style(ax, (0, 16.5))
-    ax.legend([ax.containers[1], ax.containers[0]], ["Goodwill counterpart", "Diageo's 34% of MH equity"],
-              frameon=False, fontsize=8, loc="upper right", handlelength=1, borderaxespad=0.1)
-    return fig
 
 
 def entry_figure(w: pd.DataFrame):
@@ -257,76 +236,18 @@ def fv_figure(w: pd.DataFrame):
     return fig
 
 
-def netdebt_figure(w: pd.DataFrame):
-    """Horizontal bars: reported NFD vs. NFD + purchase commitments, FY2025."""
-    y = w.loc["FY2025"]
-    nfd, put = y.net_financial_debt / 1000, y.put_liability / 1000
-    fig, ax = plt.subplots(figsize=(FIGSIZE[0], 1.2))
-    ax.barh([1, 0], [nfd, nfd], color=BLUE, height=0.5, linewidth=0)
-    ax.barh([0], [put], left=[nfd], color=ORANGE, height=0.5, linewidth=1.5, edgecolor="white")
-    ax.text(nfd + 0.2, 1, f"{nfd:.1f}", va="center", fontsize=8, color=INK)
-    ax.text(nfd + put + 0.2, 0, f"{nfd + put:.1f}", va="center", fontsize=8, color=INK)
-    ax.text(nfd / 2, 0, "net debt", ha="center", va="center", fontsize=8, color="white")
-    ax.text(nfd + put / 2, 0, "put", ha="center", va="center", fontsize=8, color="white")
-    ax.set_yticks([1, 0], ["As reported", "With the put"], fontsize=8)
-    ax.set_xlim(0, 15)
-    ax.set_xlabel("EUR bn", color=MUTED, fontsize=8)
-    ax.xaxis.grid(True, color=GRID, linewidth=0.6)
-    ax.set_axisbelow(True)
-    ax.tick_params(colors=MUTED, length=0)
-    for side in ("left", "bottom"):
-        ax.spines[side].set_color(AXIS)
-    return fig
 
 
-def entries_table(w: pd.DataFrame) -> None:
-    """Journal entries in EUR m, one row per account: LVMH's pre-2010 goodwill method vs. the IASB's
-    Sept-2026 tentative decisions, side by side. Sized for one column of the two-column report."""
-    y25, y24 = w.loc["FY2025"], w.loc["FY2024"]
-    nci, gw = y25.diageo_accumulated_nci, y25.goodwill_on_commitments
-    put = nci + gw
-    mv = -y24.goodwill_change_commitments
-    f = lambda v: "--" if v is None else f"{v:,.0f}"
-
-    events = [
-        ("1. Recognise the put (31 Dec 2025)", [
-            ("Dr", "Minority interests", nci, None),
-            ("Dr", "Goodwill", gw, None),
-            ("Dr", "Put reserve (equity)", None, put),
-            ("Cr", "Put liability", put, put)]),
-        ("2. Value of MH falls (FY2024)", [
-            ("Dr", "Put liability", mv, mv),
-            ("Cr", "Goodwill", mv, None),
-            ("Cr", r"\textbf{Gain (P\&L)}", None, mv)]),
-        ("3. Diageo exercises the put", [
-            ("Dr", "Put liability", put, put),
-            ("Cr", "Cash", put, put)]),
-    ]
-    body = [r"\begin{tabular*}{\columnwidth}{@{}l@{\extracolsep{\fill}}lrr@{}}", r"\toprule",
-            r" & Account & LVMH & IASB \\", r" & & today & 2026 \\", r"\midrule"]
-    for i, (title, lines) in enumerate(events):
-        body.append(rf"\multicolumn{{4}}{{@{{}}l}}{{\textit{{{title}}}}} \\")
-        for dc, acc, a, b in lines:
-            acc = (r"\quad " if dc == "Cr" else "") + acc
-            body.append(rf"{dc} & {acc} & {f(a)} & {f(b)} \\")
-        body.append(r"\addlinespace[4pt]" if i < len(events) - 1 else r"\bottomrule")
-    body.append(r"\end{tabular*}")
-    (TABLES / "nci_put_entries.tex").write_text("% EUR m; generated by analysis/analysis.py\n" + "\n".join(body) + "\n")
 
 
 def main(ticker: str) -> None:
     w = load()
-    s = series_table(w)
-    write_table(s, "nci_put_series", caption_note="EUR m; implied fair value = (equity share + goodwill) / 0.8 / 0.34")
+    s = series_table(w)       # printed only: the figures carry these numbers in the report
     p = proforma_table(w)
-    write_table(p, "nci_put_proforma")
-    save_figure(decomposition_figure(w), "nci_put_decomposition")
     save_figure(entry_figure(w), "nci_put_entry")
     save_figure(flow_figure(w), "nci_put_flow")
     save_figure(pnl_figure(w), "nci_put_pnl")
     save_figure(fv_figure(w), "nci_put_fv")
-    save_figure(netdebt_figure(w), "nci_put_netdebt")
-    entries_table(w)
     pd.set_option("display.width", 200)
     print(s.round(0).to_string())
     print()
