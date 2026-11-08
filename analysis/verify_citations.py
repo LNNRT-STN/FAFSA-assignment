@@ -1,25 +1,26 @@
-"""Check every hand-keyed figure in data/processed/prosus_tencent.csv against its cited PDF page.
+"""Check every hand-keyed figure in data/processed/<dataset>.csv against its cited PDF page.
 
 For rows with a `pdf_page`, the page is extracted with pdftotext and searched for the value
-(formatted the Prosus way: thin-space thousands, e.g. 127 637). Rows without a page are
+(space-separated thousands, e.g. 127 637, or comma-separated). Rows without a page are
 searched across the whole report and candidate pages are printed, so the page can be filled in.
 
-Usage:  python3.12 analysis/verify_citations.py
+Usage:  python3.12 analysis/verify_citations.py <company> <dataset>
+
+Annual reports are expected at sources/<company>/pdf/FY<yyyy>_annual-report.pdf.
 """
 import re
 import subprocess
+import sys
 from functools import lru_cache
 
 import pandas as pd
 
 from common import PROCESSED, ROOT
 
-PDF_DIR = ROOT / "sources" / "prosus" / "pdf"
-
 
 @lru_cache(maxsize=None)
-def pages_of(report: str) -> list[str]:
-    pdf = PDF_DIR / f"{report}_annual-report.pdf"
+def pages_of(company: str, report: str) -> list[str]:
+    pdf = ROOT / "sources" / company / "pdf" / f"{report}_annual-report.pdf"
     txt = subprocess.run(["pdftotext", "-layout", str(pdf), "-"], capture_output=True, text=True).stdout
     return txt.split("\f")
 
@@ -39,8 +40,8 @@ def variants(value: float, unit: str) -> list[str]:
     return out
 
 
-def main() -> None:
-    df = pd.read_csv(PROCESSED / "prosus_tencent.csv")
+def main(company: str, dataset: str) -> None:
+    df = pd.read_csv(PROCESSED / f"{dataset}.csv")
     ok = missing = unknown = 0
     for _, r in df.iterrows():
         m = re.match(r"(FY\d{4}) AR", str(r.source))
@@ -49,7 +50,7 @@ def main() -> None:
             print(f"  (skip) {r.fy} {r["item"]}: not an annual-report citation -> {r.source}")
             continue
         report = m.group(1)
-        pages = pages_of(report)
+        pages = pages_of(company, report)
         needles = variants(r.value, r.unit)
         if pd.notna(r.pdf_page):
             page = int(r.pdf_page)
@@ -66,4 +67,6 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) != 3:
+        sys.exit("usage: verify_citations.py <company> <dataset>")
+    main(*sys.argv[1:])

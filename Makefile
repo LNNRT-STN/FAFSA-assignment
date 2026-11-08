@@ -1,5 +1,5 @@
 PY := /opt/homebrew/bin/python3.12
-TICKER ?= PRX.AS
+TICKER ?=
 
 .PHONY: data analysis report all clean
 

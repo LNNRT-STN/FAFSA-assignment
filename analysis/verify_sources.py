@@ -1,6 +1,6 @@
 """Check that the markitdown conversions in sources/<co>/md kept the numbers from the originals.
 
-Usage:  python3.12 analysis/verify_sources.py [prosus]
+Usage:  python3.12 analysis/verify_sources.py <company>
 
 For each PDF, numbers are pulled from every page's text layer (pypdfium2). For each xlsx,
 numbers are pulled from every numeric cell. We then check whether each number also
@@ -15,7 +15,7 @@ import pandas as pd
 import pypdfium2 as pdfium
 
 ROOT = Path(__file__).resolve().parents[1]
-# Numbers with 3+ significant chars; Prosus uses a space as the thousands separator ("5 104")
+# Numbers with 3+ significant chars (also space-separated thousands, e.g. "5 104")
 NUM = re.compile(r"(?<![\d.,])\(?\d{1,3}(?:[  ]\d{3})+(?:[.,]\d+)?\)?|(?<![\d.,])\d{3,}(?:[.,]\d+)?|(?<![\d.,])\d+[.,]\d+")
 
 
@@ -67,7 +67,7 @@ def check_xlsx(xlsx: Path, md_text: str) -> dict:
                 no_text_pages=0, weak_pages="")
 
 
-def main(company: str = "prosus") -> None:
+def main(company: str) -> None:
     src = ROOT / "sources" / company
     rows = []
     for f in sorted([*src.glob("pdf/*.pdf"), *src.glob("kpi/*")]):
