@@ -11,6 +11,7 @@ Outputs (for \\input / \\includegraphics in report/)
   report/tables/nci_put_proforma.tex    what the acquirer should restate: net debt, equity, earnings
   report/figures/nci_put_decomposition.pdf   stacked bars: NCI share + goodwill plug = Diageo put
   report/figures/nci_put_entry.pdf           Dr = Cr blocks at end-2021 and end-2025, one scale
+  report/figures/nci_put_flow.pdf            FY2024 flow: MH value -> put liability -> goodwill vs. P&L
   report/figures/nci_put_pnl.pdf             net profit as reported vs. with the goodwill movement in P&L
   report/figures/nci_put_fv.pdf              implied fair value of 100% of MH, LVMH vs. Diageo basis
   report/figures/nci_put_netdebt.pdf         net financial debt as reported vs. with the put added
@@ -32,6 +33,7 @@ USD_EUR_JUN26 = 0.86      # Diageo AR 2026 note 6(b): $1 = EUR 0.86 at 30 June 2
 BLUE, ORANGE = "#1B365D", "#A65A24"
 INK, MUTED = "#1A1D21", "#5A5F66"
 GRID, AXIS, NEUTRAL = "#E3E6E9", "#B9BEC4", "#A9B4C2"
+GREEN = "#2F7D5B"          # profit or loss (the IASB route); copper stays reserved for goodwill
 
 
 def load() -> pd.DataFrame:
@@ -160,6 +162,46 @@ def entry_figure(w: pd.DataFrame):
     return fig
 
 
+def flow_figure(w: pd.DataFrame):
+    """FY2024 as a flow: fall in MH value -> fall in the put liability -> two exits
+    (LVMH: goodwill, P&L 0; IASB 2026 tentative: gain in P&L)."""
+    from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
+    y23, y24 = w.loc["FY2023"], w.loc["FY2024"]
+    fv = lambda y: (y.diageo_accumulated_nci + y.goodwill_on_commitments) / PUT_PRICE / DIAGEO_STAKE / 1000
+    fv23, fv24 = fv(y23), fv(y24)
+    mv = -y24.goodwill_change_commitments / 1000          # 4.378: liability fall booked against goodwill
+
+    fig = plt.figure(figsize=(FIGSIZE[0], 1.56))
+    ax = fig.add_axes([0, 0, 1, 1])
+    ax.set_xlim(0, FIGSIZE[0]); ax.set_ylim(0, 1.56); ax.axis("off")
+    cw = 0.82
+
+    def card(x, y, h, head, big, foot, fc, ec, tc, bc, ls="-"):
+        ax.add_patch(FancyBboxPatch((x, y), cw, h, boxstyle="round,pad=0,rounding_size=0.03",
+                                    fc=fc, ec=ec, lw=0.9, ls=ls))
+        ax.text(x + 0.06, y + h - 0.07, head, ha="left", va="top", fontsize=7.5, color=tc)
+        ax.text(x + 0.06, y + h / 2 - 0.02, big, ha="left", va="center", fontsize=12, color=bc,
+                fontweight="semibold")
+        ax.text(x + 0.06, y + 0.07, foot, ha="left", va="bottom", fontsize=7.5, color=tc)
+
+    mid = 0.78
+    card(0.0, 0.40, 0.76, "MH value", f"−€{fv23 - fv24:.1f}bn", f"€{fv23:.0f}→{fv24:.0f}bn",
+         "white", AXIS, MUTED, INK)
+    card(1.215, 0.40, 0.76, "Put liability", f"−€{mv:.1f}bn", "owed to Diageo", BLUE, BLUE, "white", "white")
+    card(2.43, 0.84, 0.70, "LVMH: goodwill", f"−€{mv:.1f}bn", "P&L: €0", ORANGE, ORANGE, "white", "white")
+    card(2.43, 0.02, 0.70, "IASB: P&L", f"+€{mv:.1f}bn", "gain", "white", GREEN, GREEN, GREEN,
+         ls=(0, (3, 2)))
+    arrow = dict(arrowstyle="-|>,head_length=3,head_width=2", lw=1.6, shrinkA=1, shrinkB=1)
+    ax.add_patch(FancyArrowPatch((0.83, mid), (1.205, mid), color=AXIS, **arrow))
+    ax.text(1.0175, mid + 0.05, "× 34%", ha="center", va="bottom", fontsize=7.5, color=INK)
+    ax.text(1.0175, mid - 0.05, "× 80%", ha="center", va="top", fontsize=7.5, color=INK)
+    ax.add_patch(FancyArrowPatch((2.045, mid + 0.04), (2.42, 1.19), connectionstyle="arc3,rad=0.25",
+                                 color=ORANGE, **arrow))
+    ax.add_patch(FancyArrowPatch((2.045, mid - 0.04), (2.42, 0.37), connectionstyle="arc3,rad=-0.25",
+                                 color=GREEN, **arrow))
+    return fig
+
+
 def pnl_figure(w: pd.DataFrame):
     """Right panel: net profit as reported vs. with the goodwill movement taken to P&L (FICE direction)."""
     d = w.loc["FY2021":"FY2025", ["net_profit_group_share", "goodwill_change_commitments"]] / 1000
@@ -170,7 +212,7 @@ def pnl_figure(w: pd.DataFrame):
     x = list(range(len(d)))
     bw = 0.36
     ax.bar([i - bw / 2 - 0.02 for i in x], d.net_profit_group_share, width=bw, color=NEUTRAL, linewidth=0)
-    ax.bar([i + bw / 2 + 0.02 for i in x], restated, width=bw, color=ORANGE, linewidth=0)
+    ax.bar([i + bw / 2 + 0.02 for i in x], restated, width=bw, color=GREEN, linewidth=0)
     for i, (r, dl, rep) in enumerate(zip(restated, delta, d.net_profit_group_share)):
         ax.text(i + bw / 2 + 0.02, max(r, rep) + 0.3, f"{dl:+.1f}".replace("-", "\u2212"), ha="center", va="bottom", fontsize=8, color=INK)
     ax.set_xticks(x, labels, fontsize=8)
@@ -280,6 +322,7 @@ def main(ticker: str) -> None:
     write_table(p, "nci_put_proforma")
     save_figure(decomposition_figure(w), "nci_put_decomposition")
     save_figure(entry_figure(w), "nci_put_entry")
+    save_figure(flow_figure(w), "nci_put_flow")
     save_figure(pnl_figure(w), "nci_put_pnl")
     save_figure(fv_figure(w), "nci_put_fv")
     save_figure(netdebt_figure(w), "nci_put_netdebt")
