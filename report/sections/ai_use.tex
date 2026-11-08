@@ -1,9 +1,33 @@
 % AFTER the memo, not counted in the four pages.
 % DRAFT -- the student must review and edit this note.
 \section*{Use of AI}
-I used Claude (Anthropic) through Claude Code. I chose the company, the issue and the conclusions.
-Claude downloaded the LVMH and Diageo reports and converted them to text.
-It found the figures in the notes, and a script checked each figure against the cited PDF page.
-It calculated the implied values and made the tables, figures and journal entries with Python.
-It wrote the report text in ASD-STE100 style and set it in \LaTeX.
+
+\subsection*{Tools}
+I used Claude (Anthropic) through Claude Code.
+Claude Fable~5.1 retrieved the data and found possible accounting issues. I ran it with the \texttt{/goal} command.
+Claude Opus~5.5 wrote the first draft of the report.
+I used \url{https://impeccable.style/} to improve the layout, the graphs and the readability.
+I used \LaTeX{} because it is easy to use with AI.
+Python did all the calculations. Thus, you can verify each number.
+
+\subsection*{What AI did}
+Claude downloaded the LVMH and Diageo reports and converted them to Markdown.
+It found the figures in the notes. A script checked each figure against the cited PDF page.
+It calculated the implied values with Python. It also made the tables, figures and journal entries.
+AI explained the issue to me and showed me the applicable standards and documents.
+I also made a video with AI to explain the issue.
+For the draft, the ASD-STE100 standard (Simplified Technical English) gave good results. A post by Andrej Karpathy suggested this method: \url{https://x.com/karpathy/status/2105819303471976479}.
+
+\subsection*{What I did}
+I chose the company, the issue and the conclusions.
+I thought carefully about how to show the issue and which graphs are necessary.
+I revised the AI draft manually. I made edits and removed text that was not true or not necessary.
 I examined each calculation and each source. I am responsible for the content.
+
+\subsection*{Limitations}
+AI often states causal links that nobody verified, or links that are too general.
+Also, AI output is frequently difficult for people to read and understand.
+Thus, people must decide what a report contains and what it does not contain.
+
+\subsection*{Reproducibility}
+My public GitHub repository contains all the files for this assignment: \url{https://github.com/LNNRT-STN/FAFSA-assignment}.

@@ -8,3 +8,6 @@ report/*.toc
 report/*.synctex.gz
 report/build/
 data/raw/
+report/*.fls
+report/*.fdb_latexmk
+report/main.pdf

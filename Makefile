@@ -1,4 +1,4 @@
-PY := /opt/homebrew/bin/python3.12
+PY ?= $(firstword $(wildcard /opt/homebrew/bin/python3.12 /opt/homebrew/bin/python3.14) python3)
 TICKER ?=
 
 .PHONY: data analysis report all clean
@@ -11,7 +11,11 @@ analysis:    ## Run calculations -> report/tables + report/figures
 
 report:      ## Compile the PDF -> report/build/main.pdf
 	mkdir -p report/build
-	cd report && tectonic -X compile main.tex --outdir build --synctex
+	@if command -v tectonic >/dev/null 2>&1; then \
+		cd report && tectonic -X compile main.tex --outdir build --synctex; \
+	else \
+		cd report && latexmk -pdf -interaction=nonstopmode -halt-on-error -synctex=1 -outdir=build main.tex; \
+	fi
 
 all: data analysis report
 
