@@ -1,0 +1,17 @@
+% AFTER the memo, not counted in the four pages. A paragraph to half a page.
+% Specifically: how the model(s) were used, where they helped, where they were
+% wrong or shallow, and how you verified.
+\section*{Use of AI}
+% Points you can draw on (write it in your own words):
+% - Claude Code was used to locate figures across seven annual reports and the KPI
+%   datasheets, to build data/processed/prosus_tencent.csv with a source per figure,
+%   to write analysis/verify_citations.py (checks each figure against the cited PDF
+%   page with pdftotext; 89 of 89 annual-report figures matched), and to produce the
+%   tables and figures with analysis/analysis.py. OpenBB was used only as a cross-check.
+% - Where it was shallow or wrong: the markdown conversions jumble two-column pages,
+%   so page numbers had to be confirmed against the PDFs (FY2023 is a two-page spread,
+%   FY2024 uses section/page numbering); an early version of the dataset used the
+%   group's total dividends from associates as if they were all Tencent's.
+% - The accounting analysis and the implications were discussed with the model; the
+%   judgement calls (significant influence, the 20% cliff, the tax point) are my own
+%   reading of IAS 28 and the reports.

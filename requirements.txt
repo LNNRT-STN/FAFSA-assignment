@@ -1,0 +1,9 @@
+# Installed globally into Homebrew Python 3.12:
+#   /opt/homebrew/bin/python3.12 -m pip install --break-system-packages -r requirements.txt
+openbb>=5.0
+openbb-equity
+openbb-yfinance
+pandas
+numpy
+matplotlib
+ipykernel

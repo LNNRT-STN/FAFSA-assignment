@@ -1,0 +1,10 @@
+.DS_Store
+__pycache__/
+.ipynb_checkpoints/
+report/*.aux
+report/*.log
+report/*.out
+report/*.toc
+report/*.synctex.gz
+report/build/
+data/raw/
