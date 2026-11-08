@@ -1,0 +1,12 @@
+Diageo plc (34% shareholder in Moët Hennessy). Fiscal year ends 30 June. Retrieved 2026-11-08.
+pdf/FY2026_annual-report.pdf https://www.diageo.com/~/media/Files/D/Diageo-V2/Diageo-Corp/investors/results-reports-and-events/annual-reports/2026/annual-report-2026.pdf
+pdf/FY2026_financial-statements.pdf https://www.diageo.com/~/media/Files/D/Diageo-V2/Diageo-Corp/investors/results-reports-and-events/annual-reports/2026/financial-statements-2026.pdf
+Same filing on EDGAR (Form 20-F exhibit): https://www.sec.gov/Archives/edgar/data/835403/000162828026057527/dia045-arax2026annualrep.htm
+
+Where to look:
+- Note 6 "Investments in associates and joint ventures", printed p. 157 (financial-statements PDF page 24, annual-report PDF page 159):
+  Moët Hennessy carrying value $5,107m (30 Jun 2026), $5,149m (2025), $4,608m (2024); share of profit $227m / $219m;
+  dividends $108m / $169m; impairment sensitivity: -1.0x EBITDA multiple -> $312m charge, -10% EBITDA -> $388m charge;
+  MH summarised results (Diageo policies, $1 = EUR 0.86): sales $6,199m, profit $668m (2025: $644m; 2024: $1,299m), net assets $15,215m.
+- Directors' report "Significant agreements - change of control", printed p. 130 (annual-report PDF page 132):
+  if a Competitor takes control of Diageo (>34% of votes or equity), LVMH may require Diageo to sell its MH/MHI interests to LVMH.

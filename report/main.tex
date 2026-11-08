@@ -1,56 +1,104 @@
 % Take-home project: accounting issue analysis
 % Constraints from the brief: A4, >= 12pt, margins >= 2 cm, 4 pages of analysis
 % (1-page executive summary + 3-page technical memo), AI-use note after (not counted).
-\documentclass[12pt,a4paper]{article}
+% Layout: two-column article. Style: ASD-STE100 (short sentences, active voice, one idea per sentence).
+\documentclass[12pt,a4paper,twocolumn]{article}
 \PassOptionsToPackage{hyphens}{url}
 
-\usepackage[a4paper,margin=2.2cm]{geometry}   % brief requires >= 2 cm
+\usepackage[a4paper,margin=2.05cm]{geometry}   % brief requires >= 2 cm
+\setlength{\columnsep}{0.6cm}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern}
+\usepackage{sourceserifpro}                 % body: Source Serif
+\usepackage[semibold,scale=0.94]{sourcesanspro} % headings, tables, captions: Source Sans
+\usepackage[italic]{mathastext}             % maths in the body face
 \usepackage[english]{babel}
 \usepackage{microtype}
 \usepackage{graphicx}
 \usepackage{booktabs}
-\usepackage{siunitx}
 \usepackage{tabularx}
 \usepackage{caption}
 \usepackage{enumitem}
 \usepackage{titlesec}
-\usepackage[hang,flushmargin]{footmisc}       % sources in footnotes (report year, note, page)
+\usepackage[flushmargin]{footmisc} % one source per line, aligned with the column
 \usepackage{xcolor}
+\usepackage{textcomp}
+\usepackage{acro}                  % abbreviations: spelled out at first use
+\newcommand{\euro}{\texteuro}
 \usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\urlstyle{sf}
+\usepackage{array}
+\usepackage{ragged2e}
+
+% ---- House style: navy accent, sans headings, ragged-right columns ---------
+\definecolor{brand}{HTML}{1B365D}   % navy
+\definecolor{muted}{HTML}{5A5F66}   % secondary text
+\definecolor{hair}{HTML}{B9BEC4}    % rules
+\newcommand{\runin}[1]{{\sffamily\color{brand}#1.}\enspace} % unbolded run-in label
 
 \graphicspath{{figures/}}
-\sisetup{group-separator={,}, group-minimum-digits=4}
-\captionsetup{font=small,labelfont=bf,skip=4pt}
+\DeclareCaptionFont{brand}{\color{brand}}
+\captionsetup{font={small,sf},labelfont={sf,bf,brand},labelsep=period,skip=3pt,justification=raggedright,singlelinecheck=false}
 \setlist{nosep,leftmargin=*}
-\titleformat{\section}{\large\bfseries}{}{0pt}{}
-\titleformat{\subsection}{\normalsize\bfseries}{}{0pt}{}
-\titlespacing*{\section}{0pt}{8pt}{3pt}
-\titlespacing*{\subsection}{0pt}{6pt}{2pt}
-\setlength{\parskip}{4pt}
+\setlist[itemize]{label={\color{brand}\textbullet}}
+\setlist[enumerate]{label={\sffamily\bfseries\color{brand}\arabic*}, leftmargin=1.1em, itemsep=1.5pt}
+\titleformat{\section}{\sffamily\Large\bfseries\color{brand}}{}{0pt}{}[{\color{brand}\titlerule[0.6pt]}]
+\titleformat{\subsection}{\sffamily\large\bfseries\color{brand}}{}{0pt}{}
+\titlespacing*{\section}{0pt}{0pt}{5pt}
+\titlespacing*{\subsection}{0pt}{6pt}{1pt}
+\renewcommand{\footnotelayout}{\sffamily\color{muted}}
+\setlength{\parskip}{3pt}
 \setlength{\parindent}{0pt}
+\setlength{\footnotesep}{6.5pt}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\dbltextfloatsep}{8pt plus 2pt minus 2pt}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.8}
+\renewcommand{\dbltopfraction}{0.9}
+\raggedbottom
+\setlength{\emergencystretch}{2em}
+\AtBeginDocument{\RaggedRight}  % no rivers in narrow columns
+
+% Source line under a float (footnotes inside floats do not print)
+\newcommand{\source}[1]{\par\vspace{2pt}{\sffamily\footnotesize\color{muted}\raggedright Source: #1\par}}
+
+% ---- Abbreviations (first use: long form + short form) ---------------------
+\acsetup{first-style=long-short}
+\DeclareAcronym{mh}{short=MH, long=Mo\"et Hennessy}
+\DeclareAcronym{ias}{short=IAS, long=International Accounting Standard}
+\DeclareAcronym{ifrs}{short=IFRS, long=International Financial Reporting Standards}
+\DeclareAcronym{iasb}{short=IASB, long={International Accounting Standards Board}}
+\DeclareAcronym{fice}{short=FICE, long=Financial Instruments with Characteristics of Equity}
+\DeclareAcronym{dcf}{short=DCF, long=discounted cash flow}
+\DeclareAcronym{pl}{short=P\&L, long=profit or loss}
+\DeclareAcronym{ebitda}{short=EBITDA, long={earnings before interest, tax, depreciation and amortisation}}
+\DeclareAcronym{ws}{short=W\&S, long=Wines \& Spirits}
 
 % ---- Fill these in --------------------------------------------------------
-\newcommand{\studentname}{Your Name}
-\newcommand{\studentnumber}{Student number}
+\newcommand{\studentname}{Lennart Steen}
+\newcommand{\studentnumber}{332851}
 \newcommand{\company}{LVMH Mo\"et Hennessy Louis Vuitton SE}
-\newcommand{\framework}{IFRS (EU), FY ended 31 December 2025}
-\newcommand{\fsurl}{https://example.com}
+\newcommand{\framework}{IFRS, FY2025}
+\newcommand{\fsurl}{https://www.lvmh.com/en/investors}
 % ---------------------------------------------------------------------------
 
 \begin{document}
 
-\noindent
-{\Large\bfseries \company: <issue>}\\[2pt]
-\studentname\ \textperiodcentered\ \studentnumber\ \textperiodcentered\ \framework\\
-{\small Financial statements: \url{\fsurl}}
-\vspace{4pt}\hrule\vspace{4pt}
+\twocolumn[{%
+\RaggedRight\sffamily
+{\LARGE\bfseries\color{brand} LVMH: Diageo's put on 34\% of Mo\"et Hennessy\par}\vspace{4pt}
+{\normalsize \studentname\enspace{\color{hair}|}\enspace \studentnumber\enspace{\color{hair}|}\enspace \company\enspace{\color{hair}|}\enspace \framework\par}\vspace{2pt}
+{\footnotesize\color{muted} Financial statements: \href{\fsurl}{\color{brand}\underline{lvmh.com/en/investors}}. Sources: FD = Financial Documents; URD = Universal Registration Document; HFR = Half-year Report; AR = Annual Report; PDF page numbers.\par}
+\vspace{3pt}{\color{brand}\rule{\textwidth}{1.2pt}}\vspace{4pt}
+}]
 
 \input{sections/executive_summary}
 \clearpage
 \input{sections/technical_memo}
-\clearpage
+\onecolumn\justifying % AI-use note: standard one-column, justified page
 \input{sections/ai_use}
 
 \end{document}

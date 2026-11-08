@@ -6,7 +6,9 @@ searched across the whole report and candidate pages are printed, so the page ca
 
 Usage:  python3.12 analysis/verify_citations.py <company> <dataset>
 
-Annual reports are expected at sources/<company>/pdf/FY<yyyy>_annual-report.pdf.
+The `source` column starts with the period and document, e.g. "FY2025 FD note 18" or "H1-2026 HFR ...":
+FD -> FY<yyyy>_financial-documents.pdf, URD -> FY<yyyy>_urd.pdf, HFR -> H1-<yyyy>_financial-report.pdf
+(all in sources/<company>/pdf/).
 """
 import re
 import subprocess
@@ -17,10 +19,12 @@ import pandas as pd
 
 from common import PROCESSED, ROOT
 
+DOCS = {"FD": "financial-documents", "URD": "urd", "HFR": "financial-report"}
+
 
 @lru_cache(maxsize=None)
 def pages_of(company: str, report: str) -> list[str]:
-    pdf = ROOT / "sources" / company / "pdf" / f"{report}_annual-report.pdf"
+    pdf = ROOT / "sources" / company / "pdf" / f"{report}.pdf"
     txt = subprocess.run(["pdftotext", "-layout", str(pdf), "-"], capture_output=True, text=True).stdout
     return txt.split("\f")
 
@@ -35,8 +39,10 @@ def variants(value: float, unit: str) -> list[str]:
     if v % 10 == 0 and v >= 1000:  # rounded "US$6.5bn" / "US$12.34bn" / "US$17bn" figures
         out += [f"{v / 1000:.1f}bn", f"{v / 1000:.2f}bn", f"{v // 1000}bn" if v % 1000 == 0 else ""]
         out = [o for o in out if o]
-    if v < 0:
-        out.append(f"({-v:,})".replace(",", " "))
+    if value != v and unit.endswith("bn"):  # e.g. "12.6" in an EUR billions table
+        out.append(f"{value:.1f}")
+    if v < 0:  # negatives printed in parentheses
+        out += [f"({-v:,})".replace(",", " "), f"({-v:,})", f"({-v})"]
     return out
 
 
@@ -44,12 +50,12 @@ def main(company: str, dataset: str) -> None:
     df = pd.read_csv(PROCESSED / f"{dataset}.csv")
     ok = missing = unknown = 0
     for _, r in df.iterrows():
-        m = re.match(r"(FY\d{4}) AR", str(r.source))
+        m = re.match(r"((?:FY|H1-)\d{4}) (FD|URD|HFR)\b", str(r.source))
         if not m:
             unknown += 1
-            print(f"  (skip) {r.fy} {r["item"]}: not an annual-report citation -> {r.source}")
+            print(f"  (skip) {r.fy} {r["item"]}: not a report citation -> {r.source}")
             continue
-        report = m.group(1)
+        report = f"{m.group(1)}_{DOCS[m.group(2)]}"
         pages = pages_of(company, report)
         needles = variants(r.value, r.unit)
         if pd.notna(r.pdf_page):

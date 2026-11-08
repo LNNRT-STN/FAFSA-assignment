@@ -1,5 +1,127 @@
-% PAGES 2-4 -- Technical memo supporting the executive summary.
-% Cover: the standard(s), measurement, judgement, disclosures, implications,
-% with illustrative numbers. Cite every important figure (report year, note, page).
-% Table citations go in a \par\footnotesize source line under the table.
+% PAGES 2-4 -- Technical memo: standard(s), measurement, judgement, disclosures, implications, illustrative numbers.
+% Table/figure citations go in a \source line under the float (footnotes in floats do not print).
+% Style: ASD-STE100 for the prose (short sentences, active voice, one idea per sentence).
+\acresetall % the memo is read on its own: spell out each abbreviation again at first use
 \section*{Technical memo}
+
+\subsection*{1. Accounting standards}
+The liability is clear. \ac{ias}~32.23 says that a contract to buy own equity instruments for cash is a financial liability.
+This rule also applies to a put on the shares of a subsidiary that a minority shareholder holds.
+The liability is the present value of the redemption amount. The probability of exercise is not relevant.
+
+The other side of the liability entry is not clear. \acs{ias}~32 does not say where to record the debit, or the later changes in value.
+Two readings are possible.
+Under \ac{ifrs}~10.23, a change in ownership without loss of control is an equity transaction, so changes in value go to equity.
+Under \acs{ifrs}~9, the put is a financial liability, so changes in value go to \ac{pl}.
+
+Practice varies.
+The \ac{iasb} has tentatively decided that changes in value go to \acs{pl}, and that the initial debit is a deduction from minority interests.
+There is no date for a final standard.\footnote{IASB Update, September 2026 (FICE), ifrs.org.}
+Figure~\ref{fig:pnl} shows the effect on LVMH's net profit.
+
+\begin{figure}[!b]
+\centering\includegraphics[width=\columnwidth]{nci_put_pnl}
+\caption{Net profit, Group share (EUR bn), as reported and with the goodwill movement in \acs{pl}. Labels show the difference.}\label{fig:pnl}
+\source{FD 2025, p.~24 (2023--2025); FD 2023, p.~24 (2021--2022); Table~\ref{tab:series}.}
+\end{figure}
+
+\subsection*{2. LVMH's accounting method}
+LVMH applies a French method to puts given before 1 January 2010.\footnote{FD 2025, note 1.13, p.~33.}
+The Diageo put is from 1994.
+LVMH records the value of the put as a liability, and removes Diageo's minority interest from equity.
+Without the put, equity includes Diageo's 34\% of \ac{mh} as ``minority interests''. With the put, this share is a liability, and LVMH must not show it twice.
+LVMH records the difference between the liability and the minority interest in goodwill. All later changes in value also go to goodwill.
+
+Table~\ref{tab:entries} shows the entries with LVMH's numbers, and the same events under the \acs{iasb} decision.
+Figure~\ref{fig:decomp} shows the two parts of the liability over time.
+
+\begin{table}[!t]
+\caption{Journal entries for the Diageo put (EUR m)}\label{tab:entries}
+\small\sffamily\input{tables/nci_put_entries}
+\source{FD 2025, notes 18 and 4, pp.~53 and 40 (31 Dec 2025); FD 2024, note 4, p.~40 (FY2024 movement). ``Put reserve'' is our name for the \acs{iasb}'s separate deduction from minority interests.}
+\end{table}
+
+\begin{figure}[!t]
+\centering\includegraphics[width=\columnwidth]{nci_put_decomposition}
+\caption{The Diageo put as booked (EUR bn): Diageo's equity share is stable; the goodwill part decreases.}\label{fig:decomp}
+\source{Table~\ref{tab:series}.}
+\end{figure}
+
+The entries show three facts.
+First, the goodwill is a balancing figure, not an asset. It is not in the list of assets that LVMH tests for impairment every year.\footnote{FD 2025, note 5, p.~40.}
+
+Second, the value change does not go to profit. In FY2024, LVMH recorded a credit of \euro4.4bn to goodwill. Under the \acs{iasb} decision, the same credit is a gain in \acs{pl}.
+
+Third, Diageo is not in ``minority interests''. The \euro1,477m of minority interests in the balance sheet excludes Diageo's 34\% of \acs{mh}.\footnote{FD 2025, balance sheet, p.~26; note 18, p.~53.}
+
+\subsection*{3. Valuation of \acs{mh}}
+The Diageo liability is $0.80 \times 0.34 \times$ the fair value of \acs{mh}.
+A change of \euro1bn in the value of \acs{mh} changes the liability by \euro0.27bn.
+Because \acs{mh} is not a listed company, its fair value is a management estimate.
+
+The method changed in 2025. Until mid-2025, LVMH applied peer multiples to \acs{mh}'s operating results.\footnote{FD 2024, note 21, p.~57; same text in FD 2021--2023.}
+For FY2025, LVMH used a \ac{dcf} of \acs{mh}, with the method of its impairment tests.\footnote{FD 2025, note 21, p.~56.}
+LVMH gives no reason for the change and no sensitivity.
+
+The \acs{dcf} assumptions are generous. For \ac{ws}, LVMH uses a post-tax discount rate of 6.9\% and terminal growth of 2.1--3.5\%.
+This is the lowest discount rate and the highest growth rate in the group.\footnote{FY2025 URD, note 5, p.~357.}
+
+Diageo's numbers give a lower value. Diageo records its 34\% at \$5,107m. It says that a 10\% decrease in \acs{ebitda} causes an impairment of \$388m.\footnote{Diageo AR 2026, note 6, printed p.~157.}
+Thus, $5{,}107 - 0.9\,V = 388$, and $V \approx \$5.2$bn for 34\%. At \$1 = \euro0.86, this gives approximately \euro13.3bn for 100\% of \acs{mh}, against LVMH's \euro17.4bn (Figure~\ref{fig:fv}).
+
+\begin{figure}[!t]
+\centering\includegraphics[width=\columnwidth]{nci_put_fv}
+\caption{Implied fair value of 100\% of \acs{mh} (EUR bn): LVMH's value decreases by approximately \euro30bn.}\label{fig:fv}
+\source{Table~\ref{tab:series}; Diageo basis: Diageo AR 2026, note 6, printed p.~157.}
+\end{figure}
+
+\runin{Why the two values differ}Three causes explain the gap.
+(1)~Method: LVMH's \acs{dcf} uses its own business plan and looks through the current decrease. Diageo uses an \acs{ebitda} multiple, which follows the market today.
+(2)~Assumptions: LVMH's discount rate and growth rate are generous (see above).
+(3)~Date and currency: 31 December 2025 in euro, against 30 June 2026 in dollars.
+This effect is small: LVMH's own value changed by less than 1\% in H1~2026.
+
+\runin{Why the difference matters}On Diageo's basis, the put liability is \euro3.6bn, \euro1.1bn less than booked.
+But the same \acs{dcf} also supports the value of the \acs{ws} brands in the impairment test.
+A lower value of \acs{mh} can cause an impairment of these brands.
+The acquirer must not accept either value without a check.
+
+\subsection*{4. Estimating the undisclosed liability}
+LVMH does not disclose the Diageo liability separately.
+Note~4 gives the goodwill part and note~18 gives Diageo's share of \acs{mh} equity. Their sum is the Diageo liability (Table~\ref{tab:series}).
+The goodwill line also includes small pre-2010 puts (note~21 says ``mainly'' Diageo). Thus, the implied values are approximate.
+
+\begin{table*}[!t]
+\centering\small\sffamily
+\caption{The Diageo put, 2021 -- H1 2026 (EUR m)}\label{tab:series}
+\input{tables/nci_put_series}
+\source{FD 2021--2025: balance sheet, p.~26; note~4, pp.~39--41; note~18, pp.~52--53. HFR H1-2026, pp.~24, 30 and 42. Implied fair value = implied put / (0.8 $\times$ 0.34).}
+\end{table*}
+
+The cause is operational. \acs{ws} profit from recurring operations decreased from \euro2,109m (2023) to \euro1,016m (2025).\footnote{FD 2025, management report 1.2, p.~9.}
+\acs{ws} intangible assets and goodwill decreased from \euro7,775m (2023) to \euro2,423m (2025).\footnote{FD 2025, note 24.1, pp.~61 and 63.}
+LVMH recorded no material impairment loss for this decrease.\footnote{FD 2025, note 5, p.~40.}
+
+\subsection*{5. LVMH's disclosures}
+LVMH discloses the price formula, the notice period, the method (in one sentence), Diageo's share of profit, equity and dividends, and the exclusion from net debt.
+It does not disclose the sensitivity of the value, the reason for the 2025 method change, the change-of-control terms, or Diageo's protections as a minority shareholder.
+
+The put is not a key audit matter.\footnote{FY2025 URD, statutory auditors' report, p.~411.}
+Diageo's report gives one more term: if a competitor takes control of Diageo, LVMH can make Diageo sell its \acs{mh} shares.\footnote{Diageo AR 2026, directors' report, printed p.~130.}
+LVMH's report does not say what occurs if a buyer takes control of LVMH.
+
+\subsection*{6. Implications for the acquirer}
+\runin{Leverage}Add the put to net debt: \euro6.9bn becomes \euro13.2bn (Figure~\ref{fig:netdebt}).
+
+\runin{Earnings}Under the \acs{iasb} decision, one line changes net profit by $-20\%$ to $+35\%$ in a year (Figure~\ref{fig:pnl}). Remove this line from covenants, earn-outs and bonus targets.
+
+\runin{Price of 100\% of \acs{mh}}The Diageo put is \euro4.7bn, which is 80\% of a low value. At full fair value, it is \euro5.9bn; on Diageo's basis, \euro3.6bn. Diageo will not sell at a 20\% discount in a recovered market. The real cost is \euro4.7--12bn.
+
+\runin{Cash and relationship}Diageo receives 34\% of \acs{mh} dividends (\euro141m in 2025).\footnote{FD 2025, note 18, p.~53.} In 2020, Diageo started arbitration about \euro181m of retained dividends.\footnote{Vinetur (Reuters), 4 August 2026.} The partner is a counterparty, not an ally.
+
+\begin{figure}[!t]
+\centering\includegraphics[width=\columnwidth]{nci_put_netdebt}
+\caption{Net financial debt, 31 December 2025 (EUR bn): the put almost doubles it.}\label{fig:netdebt}
+\source{FD 2025, note 19.1, p.~53; balance sheet, p.~26.}
+\end{figure}
+

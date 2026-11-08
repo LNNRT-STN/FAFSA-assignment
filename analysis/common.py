@@ -16,8 +16,15 @@ FIGURES = ROOT / "report" / "figures"
 for d in (RAW, PROCESSED, TABLES, FIGURES):
     d.mkdir(parents=True, exist_ok=True)
 
-# Consistent, print-friendly figure style for the report
+# Consistent, print-friendly figure style for the report.
+# Figures use Source Sans (the report's sans face) from Tectonic's cache when present.
+from glob import glob
+from matplotlib import font_manager
+for _f in glob(str(Path.home() / "Library/Caches/TectonicProject.Tectonic/bundles/data/*/SourceSansPro-*.otf")):
+    font_manager.fontManager.addfont(_f)
 plt.rcParams.update({
+    "font.family": "sans-serif",
+    "font.sans-serif": ["Source Sans Pro", "Helvetica Neue", "Helvetica", "DejaVu Sans"],
     "figure.figsize": (6.0, 3.0),
     "font.size": 9,
     "axes.spines.top": False,
@@ -40,7 +47,7 @@ def write_table(df: pd.DataFrame, name: str, *, decimals: int = 0, caption_note:
     path = TABLES / f"{name}.tex"
     df = df.copy()
     df.index.name = None
-    body = df.to_latex(float_format=f"{{:,.{decimals}f}}".format, escape=True,
+    body = df.to_latex(float_format=f"{{:,.{decimals}f}}".format, escape=True, na_rep="--",
                        column_format="l" + "r" * df.shape[1])
     if caption_note:
         body = f"% {caption_note}\n" + body

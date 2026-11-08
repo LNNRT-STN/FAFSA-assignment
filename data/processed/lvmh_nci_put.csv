@@ -1,0 +1,67 @@
+fy,item,value,unit,source,pdf_page,comment
+FY2019,put_liability,10735,EURm,FY2021 FD balance sheet (2019 comparative),26,"Purchase commitments for minority interests' shares, non-current liabilities"
+FY2020,put_liability,10991,EURm,FY2021 FD balance sheet (2020 comparative),26,
+FY2020,goodwill_on_commitments,6597,EURm,FY2021 FD note 4 (2020 comparative),41,"Goodwill arising on purchase commitments for minority interests' shares"
+FY2021,put_liability,13677,EURm,FY2021 FD balance sheet,26,
+FY2021,goodwill_on_commitments,9070,EURm,FY2021 FD note 4,41,
+FY2021,goodwill_change_commitments,2467,EURm,FY2021 FD note 4,41,"Changes in purchase commitments for minority interests' shares (goodwill movement)"
+FY2021,diageo_accumulated_nci,3775,EURm,FY2021 FD note 18,52,"Diageo share in accumulated minority interests before recognition of the purchase commitment"
+FY2021,diageo_net_profit_share,432,EURm,FY2021 FD note 18,52,
+FY2021,dividends_to_diageo,143,EURm,FY2021 FD note 18,52,"paid in 2021 in respect of 2020"
+FY2021,net_profit_group_share,12036,EURm,FY2023 FD income statement (2021 comparative),24,
+FY2022,net_profit_group_share,14084,EURm,FY2023 FD income statement (2022 comparative),24,
+FY2022,put_liability,12489,EURm,FY2022 FD balance sheet,26,
+FY2022,goodwill_on_commitments,6899,EURm,FY2022 FD note 4,39,
+FY2022,goodwill_change_commitments,-2204,EURm,FY2022 FD note 4,40,
+FY2022,diageo_accumulated_nci,4265,EURm,FY2022 FD note 18,52,
+FY2022,diageo_net_profit_share,480,EURm,FY2022 FD note 18,52,
+FY2022,dividends_to_diageo,217,EURm,FY2022 FD note 18,52,
+FY2023,put_liability,11919,EURm,FY2023 FD balance sheet,26,
+FY2023,goodwill_on_commitments,5682,EURm,FY2023 FD note 4,40,
+FY2023,goodwill_change_commitments,-1235,EURm,FY2023 FD note 4,40,
+FY2023,diageo_accumulated_nci,4281,EURm,FY2023 FD note 18,52,
+FY2023,diageo_net_profit_share,480,EURm,FY2023 FD note 18,52,
+FY2023,dividends_to_diageo,241,EURm,FY2023 FD note 18,52,
+FY2023,ws_profit_recurring,2109,EURm,FY2025 FD management report 1.2 (2023 comparative),9,"Wines and Spirits profit from recurring operations"
+FY2023,ws_intangibles_goodwill,7775,EURm,FY2025 FD note 24.1 (fiscal 2023 table),63,"Wines and Spirits segment: intangible assets and goodwill"
+FY2023,net_profit_group_share,15174,EURm,FY2025 FD income statement (2023 comparative),24,
+FY2024,put_liability,8056,EURm,FY2024 FD balance sheet,26,
+FY2024,goodwill_on_commitments,1239,EURm,FY2024 FD note 4,40,
+FY2024,goodwill_change_commitments,-4378,EURm,FY2024 FD note 4,40,
+FY2024,diageo_accumulated_nci,4332,EURm,FY2024 FD note 18,53,
+FY2024,diageo_net_profit_share,276,EURm,FY2024 FD note 18,53,
+FY2024,dividends_to_diageo,241,EURm,FY2024 FD note 18,53,
+FY2024,ws_profit_recurring,1356,EURm,FY2025 FD management report 1.2 (2024 comparative),9,
+FY2024,ws_intangibles_goodwill,3512,EURm,FY2025 FD note 24.1 (fiscal 2024 table),62,
+FY2024,net_profit_group_share,12550,EURm,FY2025 FD income statement (2024 comparative),24,
+FY2025,put_liability,6331,EURm,FY2025 FD balance sheet,26,
+FY2025,goodwill_on_commitments,386,EURm,FY2025 FD note 4,40,
+FY2025,goodwill_change_commitments,-900,EURm,FY2025 FD note 4,40,
+FY2025,goodwill_total,18315,EURm,FY2025 FD note 4,40,
+FY2025,diageo_accumulated_nci,4341,EURm,FY2025 FD note 18,53,
+FY2025,diageo_net_profit_share,177,EURm,FY2025 FD note 18,53,
+FY2025,dividends_to_diageo,141,EURm,FY2025 FD note 18,53,
+FY2025,mh_equity,12.6,EURbn,FY2025 FD note 18 (Moet Hennessy condensed balance sheet),53,
+FY2025,mh_inventories,8.4,EURbn,FY2025 FD note 18 (Moet Hennessy condensed balance sheet),53,
+FY2025,ws_revenue,5358,EURm,FY2025 FD management report 1.2,10,
+FY2025,ws_profit_recurring,1016,EURm,FY2025 FD management report 1.2,9,
+FY2025,ws_da_impairment,332,EURm,FY2025 FD note 24.1,61,"Wines and Spirits depreciation, amortization and impairment expenses"
+FY2025,ws_intangibles_goodwill,2423,EURm,FY2025 FD note 24.1,61,
+FY2025,net_profit_group_share,10878,EURm,FY2025 FD income statement,24,
+FY2025,equity_group_share,67472,EURm,FY2025 FD balance sheet,26,
+FY2025,minority_interests,1477,EURm,FY2025 FD balance sheet,26,
+FY2025,net_financial_debt,6857,EURm,FY2025 FD note 19.1,53,"excludes purchase commitments and lease liabilities (stated under the table)"
+FY2025,ws_post_tax_discount_rate,6.9,%,FY2025 URD note 5 (impairment assumptions table),357,"Wines and Spirits post-tax discount rate"
+FY2025,parent_share_purchase_commitments,6913,EURm,FY2025 URD parent-company note 21.1,443,"LVMH SE off-balance-sheet share purchase commitments; 1994 MoU with Diageo, 6 months notice, 80% of market value"
+H1-2026,put_liability,6416,EURm,H1-2026 HFR balance sheet,24,
+H1-2026,goodwill_on_commitments,382,EURm,H1-2026 HFR note 4,30,
+H1-2026,goodwill_change_commitments,6,EURm,H1-2026 HFR note 4,30,
+H1-2026,diageo_accumulated_nci,4369,EURm,H1-2026 HFR note 18,42,
+H1-2026,diageo_net_profit_share,110,EURm,H1-2026 HFR note 18,42,"first half 2026"
+H1-2026,dividends_to_diageo,89,EURm,H1-2026 HFR note 18,42,
+H1-2026,net_financial_debt,8245,EURm,H1-2026 HFR note 19.1,42,
+Diageo FY2026,diageo_mh_carrying_value_usd,5107,USDm,Diageo AR 2026 note 6(a) printed p.157 (sources/diageo/pdf/FY2026_financial-statements.pdf page 24),,"carrying value of Diageo's 34% at 30 June 2026; $5,149m at 30 June 2025; $4,608m at 30 June 2024"
+Diageo FY2026,diageo_mh_share_of_profit_usd,227,USDm,Diageo AR 2026 note 6(a) printed p.157 (financial-statements PDF page 24),,"fiscal 2026; fiscal 2025: $219m"
+Diageo FY2026,diageo_mh_impairment_if_multiple_minus_1x_usd,312,USDm,Diageo AR 2026 note 6(a) printed p.157 (financial-statements PDF page 24),,"impairment if EBITDA multiple falls by 1.0x (recoverable amount on fair value less costs of disposal)"
+Diageo FY2026,diageo_mh_impairment_if_ebitda_minus_10pct_usd,388,USDm,Diageo AR 2026 note 6(a) printed p.157 (financial-statements PDF page 24),,"impairment if EBITDA falls 10%"
+Diageo FY2026,mh_profit_diageo_basis_usd,668,USDm,Diageo AR 2026 note 6(b) printed p.157 (financial-statements PDF page 24),,"Moet Hennessy profit for the year on Diageo's policies, at $1 = EUR 0.86; 2025: $644m; 2024: $1,299m"
