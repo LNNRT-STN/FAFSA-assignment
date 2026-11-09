@@ -18,6 +18,7 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{caption}
+\usepackage[bottom]{footmisc}          % footnotes below bottom floats, not above
 \usepackage{enumitem}
 \usepackage{titlesec}
 \usepackage{xcolor}
@@ -52,9 +53,11 @@
 \renewcommand\@makefntext[1]{\leftskip=1.4em\parindent=0pt\noindent
   \llap{\makebox[1.4em][l]{\sffamily\color{brand}\@thefnmark}}{\sffamily\color{muted}#1}}
 \makeatother
-\setlength{\parskip}{3pt}
+\interfootnotelinepenalty=10000   % never split a footnote across columns/pages
+\frenchspacing
+\setlength{\parskip}{3pt minus 1.5pt}   % may shrink so a column can take one more line
 \setlength{\parindent}{0pt}
-\setlength{\footnotesep}{6.5pt}
+\setlength{\footnotesep}{5.5pt}
 \setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
 \setlength{\floatsep}{6pt plus 2pt minus 2pt}
 \setlength{\dbltextfloatsep}{8pt plus 2pt minus 2pt}
@@ -96,12 +99,13 @@
 \begin{document}
 
 \includepdf[pages=1]{"Template Assignments MFM_27.pdf"}  % cover page (not counted)
+\setcounter{page}{1}  % executive summary is page 1, memo pages 2--4 (brief)
 
 \twocolumn[{%
 \RaggedRight\sffamily
 {\LARGE\bfseries\color{brand} LVMH: A liability that hides a loss\par}\vspace{4pt}
 {\normalsize \studentname\enspace{\color{hair}|}\enspace \studentnumber\enspace{\color{hair}|}\enspace \company\enspace{\color{hair}|}\enspace \framework\par}\vspace{2pt}
-{\footnotesize\color{muted} Financial statements: \href{\fsurl}{\color{brand}\underline{lvmh.com/en/investors}}. Sources: FD = Financial Documents; URD = Universal Registration Document; HFR = Half-year Report; AR = Annual Report; PDF page numbers.\par}
+{\footnotesize\color{muted} Financial statements: \href{\fsurl}{\color{brand}\underline{lvmh.com/en/investors}}. Sources: FD = Financial Documents; URD = Universal Registration Document; HFR = Half-year Report; AR = Annual Report; PDF page numbers unless marked ``printed''.\par}
 \vspace{3pt}{\color{brand}\rule{\textwidth}{1.2pt}}\vspace{4pt}
 }]
 

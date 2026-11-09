@@ -99,7 +99,7 @@ def entry_figure(w: pd.DataFrame):
     def seg(x, y, value, name):
         """Block label: the amount, with the account name in smaller type under it."""
         ax.annotate(f"{value:,.0f}", (x, y), xytext=(0, 0.5), textcoords="offset points",
-                    ha="center", va="bottom", color="white", fontsize=7.5, fontweight="semibold")
+                    ha="center", va="bottom", color="white", fontsize=8, fontweight="semibold")
         ax.annotate(name, (x, y), xytext=(0, -0.5), textcoords="offset points",
                     ha="center", va="top", color="white", fontsize=6.5, linespacing=0.95)
 
@@ -117,7 +117,7 @@ def entry_figure(w: pd.DataFrame):
             seg(x0 + bw / 2, nci + gw / 2, gw, "goodwill")
         else:
             ax.annotate(f"{gw:,.0f} goodwill", xy=(x0 + bw / 2, put), xytext=(x0 + bw / 2 + 0.4, put + 1300),
-                        ha="center", va="bottom", fontsize=7.5, color=ORANGE, fontweight="semibold",
+                        ha="center", va="bottom", fontsize=8, color=ORANGE, fontweight="semibold",
                         arrowprops=dict(arrowstyle="-", color=ORANGE, lw=0.6, shrinkA=0, shrinkB=0))
         seg(xc + bw / 2, put / 2 + 250, put, "put\nliability")
         ax.text(x0 + bw + gap / 2, put / 2, "=", ha="center", va="center", fontsize=11, color=MUTED)
@@ -133,7 +133,7 @@ def entry_figure(w: pd.DataFrame):
     ax.add_patch(FancyArrowPatch((2.42, 9600), (3.28, 4650), connectionstyle="arc3,rad=-0.35",
                                  arrowstyle="-|>,head_length=4,head_width=2.5", color=ORANGE, lw=1.3))
     ax.text(3.35, 11300, f"−€{-d_gw:.1f}bn goodwill", ha="left", va="top", fontsize=8,
-            color=ORANGE, fontweight="semibold")
+            color=MUTED, fontweight="semibold")
     ax.text(3.35, 10200, "€0 through P&L", ha="left", va="top", fontsize=8, color=INK, fontweight="semibold")
     ax.set_xlim(-0.05, 3.35 + 2 * bw + gap + 0.05)
     ax.set_ylim(-1100, 15500)
@@ -158,10 +158,10 @@ def flow_figure(w: pd.DataFrame):
     def card(x, y, h, head, big, foot, fc, ec, tc, bc, ls="-"):
         ax.add_patch(FancyBboxPatch((x, y), cw, h, boxstyle="round,pad=0,rounding_size=0.03",
                                     fc=fc, ec=ec, lw=0.9, ls=ls))
-        ax.text(x + 0.06, y + h - 0.07, head, ha="left", va="top", fontsize=7.5, color=tc)
+        ax.text(x + 0.06, y + h - 0.07, head, ha="left", va="top", fontsize=8, color=tc)
         ax.text(x + 0.06, y + h / 2 - 0.02, big, ha="left", va="center", fontsize=12, color=bc,
                 fontweight="semibold")
-        ax.text(x + 0.06, y + 0.07, foot, ha="left", va="bottom", fontsize=7.5, color=tc)
+        ax.text(x + 0.06, y + 0.07, foot, ha="left", va="bottom", fontsize=8, color=tc)
 
     mid = 0.78
     card(0.0, 0.40, 0.76, "MH value", f"−€{fv23 - fv24:.1f}bn", f"€{fv23:.0f}→{fv24:.0f}bn",
@@ -172,8 +172,8 @@ def flow_figure(w: pd.DataFrame):
          ls=(0, (3, 2)))
     arrow = dict(arrowstyle="-|>,head_length=3,head_width=2", lw=1.6, shrinkA=1, shrinkB=1)
     ax.add_patch(FancyArrowPatch((0.83, mid), (1.205, mid), color=AXIS, **arrow))
-    ax.text(1.0175, mid + 0.05, "× 34%", ha="center", va="bottom", fontsize=7.5, color=INK)
-    ax.text(1.0175, mid - 0.05, "× 80%", ha="center", va="top", fontsize=7.5, color=INK)
+    ax.text(1.0175, mid + 0.05, "× 34%", ha="center", va="bottom", fontsize=8, color=INK)
+    ax.text(1.0175, mid - 0.05, "× 80%", ha="center", va="top", fontsize=8, color=INK)
     ax.add_patch(FancyArrowPatch((2.045, mid + 0.04), (2.42, 1.19), connectionstyle="arc3,rad=0.25",
                                  color=ORANGE, **arrow))
     ax.add_patch(FancyArrowPatch((2.045, mid - 0.04), (2.42, 0.37), connectionstyle="arc3,rad=-0.25",
@@ -220,14 +220,14 @@ def fv_figure(w: pd.DataFrame):
     for i in (0, 3):   # anchor the fall: start and the 2024 drop, up-right of the point
         ax.text(x[i] + 0.1, d.iloc[i] + 1.5, f"{d.iloc[i]:.0f}", ha="left", va="bottom", fontsize=8, color=INK)
     dg = diageo_basis_fv_mh() / 1000
-    ax.plot([x[-1]], [dg], marker="D", markersize=5.5, color=ORANGE, markeredgecolor="white",
+    ax.plot([x[-1]], [dg], marker="D", markersize=5.5, color=MUTED, markeredgecolor="white",
             markeredgewidth=1.2, linestyle="none", zorder=4)
     # Direct end labels, in series colour, right of each endpoint: name + value the text compares
     end = x[-1] + 0.22
     ax.text(end, d.iloc[-1] + 0.6, f"LVMH {d.iloc[-1]:.1f}", ha="left", va="bottom", fontsize=8,
             color=BLUE, fontweight="semibold")
     ax.text(end, dg - 0.6, f"Diageo {dg:.1f}", ha="left", va="top", fontsize=8,
-            color=ORANGE, fontweight="semibold")
+            color=MUTED, fontweight="semibold")
     ax.set_xticks(x, labels, fontsize=8)
     ax.set_xlim(-0.35, x[-1] + 1.35)
     ax.spines["bottom"].set_bounds(-0.35, x[-1] + 0.35)
