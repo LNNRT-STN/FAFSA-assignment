@@ -22,7 +22,7 @@ from common import PROCESSED, plt, save_figure
 
 DIAGEO_STAKE = 0.34
 PUT_PRICE = 0.80          # Diageo can put at 80% of Moët Hennessy's fair value (FD note 21)
-USD_EUR_JUN26 = 0.86      # Diageo AR 2026 note 6(b): $1 = EUR 0.86 at 30 June 2026
+USD_EUR_JUN26 = 0.88      # Diageo AR 2026 note 6(b): $1 = EUR 0.88, closing rate for MH balance sheet at 30 June 2026 (0.86 is the income-statement rate)
 
 # House palette, matched to the report (navy brand + muted copper accent for the put)
 BLUE, ORANGE = "#1B365D", "#A65A24"

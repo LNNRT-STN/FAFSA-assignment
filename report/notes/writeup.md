@@ -55,7 +55,7 @@ LVMH, note 1.13 (FD 2025, p. 33): the commitment is a liability; the minority in
 
 Sources: balance sheets (PDF p. 26 of each year's FD; H1-2026 HFR p. 24), note 4 Goodwill (FD 2025 p. 40 and prior years), note 18 Minority interests (FD 2025 p. 53 and prior years), income statement (FD 2025 p. 24, FD 2023 p. 24). Implied fair value = put / 0.8 / 0.34; the goodwill line covers all pre-2010 commitments, "mainly" Diageo, so treat the implied values as approximate.
 
-The operating cause is real: Wines & Spirits profit from recurring operations fell from €2,109m (2023) to €1,356m (2024) to €1,016m (2025) (FD 2025 p. 9–10); Diageo's summarised Moët Hennessy profit halved from $1.3bn (FY to June 2024) to $0.65bn (FY2025 and FY2026). Diageo's own test of its stake (AR 2026 note 6, p. 157) uses an EBITDA multiple, calls the investment "sensitive to reasonably possible changes", and discloses that a 1.0x lower multiple would cost $312m and 10% lower EBITDA $388m. Solving those gives a fair value of about $5.2bn for the 34%, roughly €13.3bn for 100%, versus €17.4bn on LVMH's DCF. On Diageo's basis LVMH's liability for the put would be about €3.6bn, €1.1bn below what is booked. Each €1bn of Moët Hennessy value moves the liability by €0.27bn.
+The operating cause is real: Wines & Spirits profit from recurring operations fell from €2,109m (2023) to €1,356m (2024) to €1,016m (2025) (FD 2025 p. 9–10); Diageo's summarised Moët Hennessy profit halved from $1.3bn (FY to June 2024) to $0.65bn (FY2025 and FY2026). Diageo's own test of its stake (AR 2026 note 6, p. 157) uses an EBITDA multiple, calls the investment "sensitive to reasonably possible changes", and discloses that a 1.0x lower multiple would cost $312m and 10% lower EBITDA $388m. Solving those gives a fair value of about $5.2bn for the 34%, roughly €13.6bn for 100%, versus €17.4bn on LVMH's DCF. On Diageo's basis LVMH's liability for the put would be about €3.7bn, €1.0bn below what is booked. Each €1bn of Moët Hennessy value moves the liability by €0.27bn.
 
 ### Pro-forma for the acquirer (FY2025, EUR m)
 
@@ -66,7 +66,7 @@ The operating cause is real: Wines & Spirits profit from recurring operations fe
 | = debt-like total | 13,188 |
 | Diageo put as booked (80% of fair value) | 4,727 |
 | Cost to buy Diageo out at 100% of LVMH's fair value | 5,909 |
-| Diageo put on Diageo's own multiples basis | 3,607 |
+| Diageo put on Diageo's own multiples basis | 3,691 |
 | FY2024 net profit as reported | 12,550 |
 | FY2024 net profit if the €4,378m goodwill movement had been a P&L gain | 16,928 |
 
