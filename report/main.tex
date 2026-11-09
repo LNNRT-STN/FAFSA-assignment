@@ -63,6 +63,9 @@
 \renewcommand{\textfraction}{0.1}
 \renewcommand{\floatpagefraction}{0.8}
 \renewcommand{\dbltopfraction}{0.9}
+\makeatletter % a column holding only floats starts at the top, not centred
+\setlength{\@fptop}{0pt}\setlength{\@fpsep}{8pt plus 2pt}\setlength{\@fpbot}{0pt plus 1fil}
+\makeatother
 \raggedbottom
 \setlength{\emergencystretch}{2em}
 \AtBeginDocument{\RaggedRight}  % no rivers in narrow columns
